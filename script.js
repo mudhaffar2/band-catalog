@@ -12,9 +12,8 @@ function sortByReleaseYear(a,b){
   return a.releaseYear-b.releaseYear;
 }
 
-function whenJsonLoad(bands){
+function renderBands(bands){
   var bandblock = '';
-
   bands
     .sort(sortByName)
     .forEach(function(band){
@@ -22,11 +21,15 @@ function whenJsonLoad(bands){
       var genre = `<h3>${band.genre}</h3>`;
       var memberList ='';
       var albumList ='';
-      band.members.sort(sortByName).forEach(function(member){
+      band.members
+      .sort(sortByName)
+      .forEach(function(member){
         var memberName = `<li>${member.name} ${member.instrument}</li>`;
         memberList += `${memberName}`;
       });
-      band.albums.sort(sortByReleaseYear).forEach(function(album){
+      band.albums
+      .sort(sortByReleaseYear)
+      .forEach(function(album){
         var memberAlbum = `<li>${album.title} (${album.releaseYear})</li>`;
         albumList += `${memberAlbum}`;
       });
@@ -38,11 +41,31 @@ function whenJsonLoad(bands){
   document.querySelector('#container').innerHTML = `${bandblock}`;
 }
 
+function whenJsonLoad(bands) {
+  _bands = bands;
+  renderBands(bands);
 
+  searched.addEventListener('keyup', function(){
 
+    if (searched.value === '') {
+      renderBands(bands);
+    } else {
+      _bands = bands.filter(function(band){
+        return band.name.toLowerCase().indexOf(searched.value.toLowerCase()) === 0;
+      }); 
+      renderBands(_bands);
+    }
+  });
+}
+
+/////// functions above this line
+/////////////////////////////////////////////////////////////////////
 
 
 var url = './data.json';
+var _bands;
+var searched = document.getElementById("search-field");
+
 
 fetch(url)
 .then(function(response){
@@ -53,4 +76,9 @@ fetch(url)
 .catch(function(err){
   console.info(err);
 });
+
+
+
+
+
 
