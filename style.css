@@ -1,0 +1,41 @@
+* {
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+header {
+  color:#ccc;
+  background-color: #333;
+  padding:25px;
+}
+
+#container {
+  display:flex;
+  flex-direction: column;
+  background-color: #eee;
+}
+
+.band {
+  padding: 40px;
+  margin: 20px;
+}
+
+.band:hover {
+  background-color: #fff;
+}
+
+.band ul li {
+  list-style-type: none;
+  margin-left:30px;
+}
+
+@media screen and (min-width: 640px) {
+
+  #container {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+}
