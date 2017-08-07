@@ -42,19 +42,22 @@ function renderBands(bands){
 }
 
 function whenJsonLoad(bands) {
-  _bands = bands;
   renderBands(bands);
 
   searched.addEventListener('keyup', function(){
 
     if (searched.value === '') {
-      renderBands(bands);
+      _bands = bands;
+    } else if (checkboxByGenre.checked) {
+      _bands = bands.filter(function(band){
+        return band.genre.toLowerCase().indexOf(searched.value.toLowerCase()) === 0;
+      }); 
     } else {
       _bands = bands.filter(function(band){
         return band.name.toLowerCase().indexOf(searched.value.toLowerCase()) === 0;
-      }); 
-      renderBands(_bands);
+      });
     }
+    renderBands(_bands);
   });
 }
 
@@ -65,6 +68,7 @@ function whenJsonLoad(bands) {
 var url = './data.json';
 var _bands;
 var searched = document.getElementById("search-field");
+var checkboxByGenre = document.getElementById('search-genre');
 
 
 fetch(url)
